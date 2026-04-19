@@ -3,13 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Key Lab Media — Google Performance Agency</title>
+
+<!-- ─── RESOURCE HINTS — якомога раніше ─────────────────────────── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/..."
-      onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="..."></noscript>
-  
+<!-- Inter — основний шрифт, завантажується першим -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<!-- Cormorant Garamond — display-шрифт, паралельно -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+</noscript>
+
+<!-- ─── FAVICON & THEME ──────────────────────────────────────────── -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#07070F">
+<meta name="msapplication-TileColor" content="#07070F">
+
+<!-- ─── ІНДЕКСАЦІЯ: поки сайт в розробці ───────────────────────── -->
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─── PRIMARY META ────────────────────────────────────────────── -->
+<title>Key Lab Media — Google Performance Agency | Google Ads, SEO, PMax</title>
+<meta name="description" content="Key Lab Media — сертифіковане агентство Google Performance. Google Ads, SEO, Performance Max, YouTube Ads, Ad Grants. Прозора аналітика, реальні результати для вашого бізнесу.">
+<meta name="keywords" content="Google Ads агентство, реклама Google, SEO Україна, Performance Max, Google Ad Grants, YouTube реклама, налаштування реклами, keylabmedia">
+<meta name="author" content="Key Lab Media">
+<meta name="geo.region" content="UA">
+<link rel="canonical" href="https://keylabmedia.com/">
+<link rel="alternate" hreflang="uk" href="https://keylabmedia.com/">
+<link rel="alternate" hreflang="x-default" href="https://keylabmedia.com/">
+
+<!-- ─── OPEN GRAPH ───────────────────────────────────────────────── -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Key Lab Media">
+<meta property="og:title" content="Key Lab Media — Google Performance Agency">
+<meta property="og:description" content="Сертифіковане агентство Google Performance. Реклама, що приносить гроші, а не кліки. Google Ads, SEO, PMax, YouTube, Ad Grants.">
+<meta property="og:url" content="https://keylabmedia.com/">
+<meta property="og:image" content="https://keylabmedia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Key Lab Media — Google Performance Agency">
+<meta property="og:locale" content="uk_UA">
+
+<!-- ─── TWITTER CARD ────────────────────────────────────────────── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@keylabmedia">
+<meta name="twitter:title" content="Key Lab Media — Google Performance Agency">
+<meta name="twitter:description" content="Сертифіковане агентство Google Performance. Реклама, що приносить гроші, а не кліки.">
+<meta name="twitter:image" content="https://keylabmedia.com/og-image.jpg">
 <style>
 /* ─── TOKENS ───────────────────────────────────────────────── */
 :root {
@@ -90,7 +132,7 @@ body::before{
   backdrop-filter:blur(20px) saturate(180%);
   border-color:var(--border)
 }
-.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
 .nav-logo-mark{
   width:36px;height:36px;flex-shrink:0;
 }
@@ -787,6 +829,29 @@ body::before{
   .footer-legal{gap:10px 16px}
 }
 
+/* ─── MOBILE PERFORMANCE ────────────────────────────────────── */
+/* Вимикаємо дорогі GPU-операції на мобільному */
+@media (max-width:768px){
+  /* Шум — майже невидимий (opacity 0.018), але дорогий feTurbulence */
+  body::before{display:none}
+
+  /* Глоу-елементи з blur(120px) — найдорожча операція на мобільному */
+  .glow-1,.glow-2,.glow-3{display:none}
+
+  /* backdrop-filter на nav */
+  .nav.scrolled{backdrop-filter:none;background:rgba(7,7,15,.95)}
+
+  /* backdrop-filter на overlay */
+  .mm-overlay.open{backdrop-filter:none}
+
+  /* content-visibility для секцій нижче фолду — браузер не рендерить
+     їх поки юзер не доскролить, значно скорочує час initial paint */
+  #services,#approach,#results,#reviews,#cta,footer{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 600px
+  }
+}
+
 /* ─── RESPONSIVE — 360px TINY ──────────────────────────────── */
 @media (max-width:360px){
   .hero-h1{font-size:32px}
@@ -795,6 +860,7 @@ body::before{
   .hero-eyebrow-text{font-size:10px}
 }
 </style>
+
 </head>
 <body>
 
@@ -854,8 +920,8 @@ body::before{
   <div class="mm-foot">
     <a href="#cta" class="mm-cta" onclick="closeMobileMenu()">Отримати консультацію</a>
     <div class="mm-contacts">
-      <a href="mailto:test@test.test">test@test.test</a>
-      <a href="tel:+111111">+111111</a>
+      <a href="mailto:help@keylabmedia.com">help@keylabmedia.com</a>
+      <a href="tel:+380509407485">+38 (050) 940-74-85</a>
     </div>
     <div class="mm-foot-bottom">
       <span class="mm-copy">© 2026 KLM</span>
@@ -878,7 +944,7 @@ body::before{
 
 <!-- ─── NAV ─────────────────────────────────────────────────── -->
 <nav class="nav" id="nav">
-  <div class="nav-logo">
+  <a href="#home" class="nav-logo" aria-label="Key Lab Media — на головну">
     <!-- KLM mark -->
     <svg class="nav-logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="3" y="3" width="34" height="34" stroke="#C8A96E" stroke-width="0.9"/>
@@ -897,7 +963,7 @@ body::before{
       <div class="nav-logo-name">Key Lab Media</div>
       <div class="nav-logo-sub">Google Performance Agency</div>
     </div>
-  </div>
+  </a>
   <ul class="nav-links">
     <li><a href="#services">Послуги</a></li>
     <li><a href="#approach">Підхід</a></li>
@@ -1028,6 +1094,7 @@ body::before{
 
     <div class="svc-list">
 
+      <!-- ── ПЛАТНИЙ ТРАФІК ───────────────────────── -->
       <a href="#" class="svc-row reveal">
         <span class="svc-n">01</span>
         <div class="svc-main">
@@ -1036,7 +1103,7 @@ body::before{
         </div>
         <div class="svc-tags">
           <span class="svc-tag">Search</span>
-          <span class="svc-tag">Shopping</span>
+          <span class="svc-tag">Display</span>
           <span class="svc-tag">Ремаркетинг</span>
         </div>
         <div class="svc-arr">↗</div>
@@ -1046,7 +1113,7 @@ body::before{
         <span class="svc-n">02</span>
         <div class="svc-main">
           <span class="svc-name">Performance Max</span>
-          <span class="svc-desc">Повне охоплення інвентарю Google. Аудиторні сигнали, asset-групи та стратегії ставок</span>
+          <span class="svc-desc">Повне охоплення всього інвентарю Google: пошук, дисплей, YouTube, Gmail, Maps</span>
         </div>
         <div class="svc-tags">
           <span class="svc-tag">PMax</span>
@@ -1073,19 +1140,34 @@ body::before{
       <a href="#" class="svc-row reveal">
         <span class="svc-n">04</span>
         <div class="svc-main">
-          <span class="svc-name">Google Ad Grants</span>
-          <span class="svc-desc">Безкоштовна реклама для НКО на $10,000/міс. Допомагаємо отримати та утримати грант</span>
+          <span class="svc-name">Реклама додатків</span>
+          <span class="svc-desc">Google UAC, ASO та Firebase — повний цикл від інсталяцій до утримання і монетизації</span>
         </div>
         <div class="svc-tags">
-          <span class="svc-tag">НКО</span>
-          <span class="svc-tag">Грант $10K</span>
-          <span class="svc-tag">Compliance</span>
+          <span class="svc-tag">UAC</span>
+          <span class="svc-tag">ASO</span>
+          <span class="svc-tag">Firebase</span>
+        </div>
+        <div class="svc-arr">↗</div>
+      </a>
+
+      <!-- ── ПЛАТФОРМИ ────────────────────────────── -->
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">05</span>
+        <div class="svc-main">
+          <span class="svc-name">Google Merchant Center</span>
+          <span class="svc-desc">Налаштування та оптимізація фіду. Максимальна видимість товарів у Google Shopping</span>
+        </div>
+        <div class="svc-tags">
+          <span class="svc-tag">Feed</span>
+          <span class="svc-tag">Shopping</span>
+          <span class="svc-tag">Smart Shopping</span>
         </div>
         <div class="svc-arr">↗</div>
       </a>
 
       <a href="#" class="svc-row reveal">
-        <span class="svc-n">05</span>
+        <span class="svc-n">06</span>
         <div class="svc-main">
           <span class="svc-name">Google My Business</span>
           <span class="svc-desc">Оптимізація профілю для локального пошуку та Google Maps. Управління репутацією</span>
@@ -1099,21 +1181,22 @@ body::before{
       </a>
 
       <a href="#" class="svc-row reveal">
-        <span class="svc-n">06</span>
+        <span class="svc-n">07</span>
         <div class="svc-main">
-          <span class="svc-name">Google Merchant Center</span>
-          <span class="svc-desc">Налаштування та оптимізація фіду. Максимальна видимість у Google Shopping</span>
+          <span class="svc-name">Google Ad Grants</span>
+          <span class="svc-desc">Безкоштовна реклама для НКО на $10,000/міс. Допомагаємо отримати та утримати грант</span>
         </div>
         <div class="svc-tags">
-          <span class="svc-tag">Feed</span>
-          <span class="svc-tag">Shopping</span>
-          <span class="svc-tag">Smart Shopping</span>
+          <span class="svc-tag">НКО</span>
+          <span class="svc-tag">Грант $10K</span>
+          <span class="svc-tag">Compliance</span>
         </div>
         <div class="svc-arr">↗</div>
       </a>
 
+      <!-- ── ОРГАНІКА ──────────────────────────────── -->
       <a href="#" class="svc-row reveal">
-        <span class="svc-n">07</span>
+        <span class="svc-n">08</span>
         <div class="svc-main">
           <span class="svc-name">SEO-оптимізація</span>
           <span class="svc-desc">Комплексне просування в органічній видачі: семантика, технічний SEO, посилання</span>
@@ -1126,25 +1209,12 @@ body::before{
         <div class="svc-arr">↗</div>
       </a>
 
-      <a href="#" class="svc-row reveal">
-        <span class="svc-n">08</span>
-        <div class="svc-main">
-          <span class="svc-name">Технічний аудит</span>
-          <span class="svc-desc">Глибокий аналіз акаунту та аналітики. Знаходимо втрати бюджету та точки зростання</span>
-        </div>
-        <div class="svc-tags">
-          <span class="svc-tag">Google Ads</span>
-          <span class="svc-tag">GA4 / GTM</span>
-          <span class="svc-tag">Road Map</span>
-        </div>
-        <div class="svc-arr">↗</div>
-      </a>
-
+      <!-- ── АНАЛІТИКА ТА АУДИТ ─────────────────────── -->
       <a href="#" class="svc-row reveal">
         <span class="svc-n">09</span>
         <div class="svc-main">
           <span class="svc-name">Google Analytics 4 / GTM</span>
-          <span class="svc-desc">Повне налаштування аналітики: цілі, події, воронки та наскрізні дані</span>
+          <span class="svc-desc">Повне налаштування аналітики: цілі, події, воронки та наскрізні дані до кабінету</span>
         </div>
         <div class="svc-tags">
           <span class="svc-tag">GA4</span>
@@ -1154,21 +1224,21 @@ body::before{
         <div class="svc-arr">↗</div>
       </a>
 
-      <a href="#" class="svc-row svc-row--feat reveal">
+      <a href="#" class="svc-row reveal">
         <span class="svc-n">10</span>
         <div class="svc-main">
-          <span class="svc-name">Реклама додатків</span>
-          <span class="svc-desc">Google UAC, ASO та Firebase — повний цикл: від інсталяцій до утримання і монетизації</span>
+          <span class="svc-name">Технічний аудит</span>
+          <span class="svc-desc">Глибокий аналіз акаунту, сайту та аналітики. Знаходимо втрати бюджету і точки зростання</span>
         </div>
         <div class="svc-tags">
-          <span class="svc-tag">UAC</span>
-          <span class="svc-tag">ASO</span>
-          <span class="svc-tag">LTV</span>
-          <span class="svc-tag">Firebase</span>
+          <span class="svc-tag">Google Ads</span>
+          <span class="svc-tag">GA4 / GTM</span>
+          <span class="svc-tag">Road Map</span>
         </div>
         <div class="svc-arr">↗</div>
       </a>
 
+      <!-- ── АВТОМАТИЗАЦІЯ ─────────────────────────── -->
       <a href="#" class="svc-row svc-row--feat reveal">
         <span class="svc-n">11</span>
         <div class="svc-main">
@@ -1320,7 +1390,7 @@ body::before{
           <div class="testi-avatar" style="background:linear-gradient(135deg,#0F9D58,#9B7E4E)">НБ</div>
           <div>
             <div class="testi-name">Наталія Бондаренко</div>
-            <div class="testi-company">Директор з маркетингу, МедЦентр Плюс</div>
+            <div class="testi-company">Директор з маркетингу, Центр Плюс</div>
           </div>
           <div class="testi-stars">
             <div class="star"></div><div class="star"></div><div class="star"></div>
@@ -1362,11 +1432,11 @@ body::before{
         Покажемо конкретні цифри втрат і план їх усунення.
       </p>
       <div class="cta-actions">
-        <a href="mailto:test@test.test" class="btn-hero" style="font-size:15px;padding:16px 36px">
+        <a href="mailto:help@keylabmedia.com" class="btn-hero" style="font-size:15px;padding:16px 36px">
           Замовити безкоштовний аудит &rarr;
         </a>
-        <a href="tel:+111111" class="btn-outline-hero" style="font-size:15px;padding:16px 32px">
-          +111111
+        <a href="tel:+380509407485" class="btn-outline-hero" style="font-size:15px;padding:16px 32px">
+          +38 (050) 940-74-85
         </a>
       </div>
       <p class="cta-note">Відповідаємо протягом 2 годин у робочий час</p>
@@ -1400,9 +1470,8 @@ body::before{
         </div>
         <p class="footer-about">Спеціалізоване агентство в екосистемі Google. Працюємо з бізнесами, які цінують результат і прозорість.</p>
         <div class="footer-contact">
-          <a href="mailto:test@test.test">test@test.test</a><br>
-          <a href="tel:+111111">+111111</a><br>
-          тесттесттест
+          <a href="mailto:help@keylabmedia.com">help@keylabmedia.com</a><br>
+          <a href="tel:+380509407485">+38 (050) 940-74-85</a>
         </div>
       </div>
       <div>
@@ -1525,5 +1594,118 @@ body::before{
     }, { threshold: 0.3 }).observe(metricsGrid);
   }
 </script>
+<!-- ─── SCHEMA.ORG STRUCTURED DATA ──────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://keylabmedia.com/#organization",
+      "name": "Key Lab Media",
+      "alternateName": "KLM",
+      "url": "https://keylabmedia.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://keylabmedia.com/#logo",
+        "url": "https://keylabmedia.com/klm-logo-dark.svg",
+        "width": 280,
+        "height": 248,
+        "caption": "Key Lab Media"
+      },
+      "image": { "@id": "https://keylabmedia.com/#logo" },
+      "description": "Сертифіковане агентство Google Performance. Спеціалізуємося на Google Ads, SEO, Performance Max, YouTube Ads та автоматизації реклами.",
+      "foundingDate": "2024",
+      "areaServed": { "@type": "Country", "name": "Ukraine" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+380509407485",
+        "email": "help@keylabmedia.com",
+        "contactType": "customer service",
+        "availableLanguage": ["Ukrainian", "Russian", "English"]
+      },
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://keylabmedia.com/#website",
+      "url": "https://keylabmedia.com/",
+      "name": "Key Lab Media",
+      "description": "Google Performance Agency — Google Ads, SEO, PMax, YouTube Ads",
+      "publisher": { "@id": "https://keylabmedia.com/#organization" },
+      "inLanguage": "uk-UA",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://keylabmedia.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://keylabmedia.com/#webpage",
+      "url": "https://keylabmedia.com/",
+      "name": "Key Lab Media — Google Performance Agency | Google Ads, SEO, PMax",
+      "description": "Сертифіковане агентство Google Performance. Google Ads, SEO, Performance Max, YouTube Ads, Ad Grants.",
+      "isPartOf": { "@id": "https://keylabmedia.com/#website" },
+      "about": { "@id": "https://keylabmedia.com/#organization" },
+      "inLanguage": "uk-UA",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://keylabmedia.com/" }
+        ]
+      }
+    },
+    {
+      "@type": "MarketingAgency",
+      "@id": "https://keylabmedia.com/#business",
+      "name": "Key Lab Media",
+      "url": "https://keylabmedia.com/",
+      "telephone": "+380509407485",
+      "email": "help@keylabmedia.com",
+      "image": "https://keylabmedia.com/og-image.jpg",
+      "logo": { "@id": "https://keylabmedia.com/#logo" },
+      "priceRange": "$",
+      "currenciesAccepted": "UAH, USD",
+      "paymentAccepted": "Bank Transfer, Credit Card",
+      "areaServed": "Ukraine",
+      "knowsAbout": [
+        "Google Ads", "Performance Max", "YouTube Ads", "Google Ad Grants",
+        "Google My Business", "Merchant Center", "SEO", "Google Analytics 4",
+        "Google Tag Manager", "App Campaigns", "Automation"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Google Performance Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ads", "description": "Пошук, КМС, Shopping — повний цикл від стратегії до масштабування" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Performance Max", "description": "Повна автоматизація Google Ads: PMax кампанії, Asset Groups, Smart Bidding" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "YouTube Ads", "description": "In-stream, Discovery та Bumper відеореклама від сценарію до аналітики" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Реклама додатків", "description": "Google UAC, ASO та Firebase — від інсталяцій до утримання і монетизації" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Merchant Center", "description": "Налаштування, оптимізація фідів та Shopping-кампанії для e-commerce" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google My Business", "description": "Оптимізація профілю, відгуки та локальна видимість у Google Maps" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ad Grants", "description": "$10 000/місяць безкоштовної реклами для некомерційних організацій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO-оптимізація", "description": "Технічне SEO, контент-стратегія та нарощування посилальної маси" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Analytics 4 / GTM", "description": "Налаштування GA4, GTM, конверсій та crm-інтеграцій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Технічний аудит", "description": "Повний аудит рекламних акаунтів, сайту і аналітики з планом дій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автоматизація", "description": "Google Ads Scripts, API-інтеграції та автоматичні звіти" } }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "12",
+        "reviewCount": "12"
+      }
+    }
+  ]
+}
+</script>
+
 </body>
 </html>
