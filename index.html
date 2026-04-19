@@ -6,7 +6,10 @@
 <title>Key Lab Media — Google Performance Agency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/..."
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="..."></noscript>
+  
 <style>
 /* ─── TOKENS ───────────────────────────────────────────────── */
 :root {
@@ -79,8 +82,9 @@ body::before{
   padding:0 40px;height:72px;
   display:flex;align-items:center;justify-content:space-between;
   border-bottom:1px solid transparent;
-  transition:background .4s var(--ease),border-color .4s var(--ease)
+  transition:background .4s var(--ease),border-color .4s var(--ease),opacity .3s var(--ease);
 }
+.nav.mm-hidden{opacity:0;pointer-events:none}
 .nav.scrolled{
   background:rgba(7,7,15,.85);
   backdrop-filter:blur(20px) saturate(180%);
@@ -115,43 +119,164 @@ body::before{
 
 /* ─── MOBILE NAV ───────────────────────────────────────────── */
 .nav-burger{
-  display:none;flex-direction:column;gap:5px;
-  cursor:pointer;padding:8px;margin-right:-8px;
-  background:transparent;
+  display:none;align-items:center;justify-content:center;
+  width:40px;height:40px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:50%;cursor:pointer;
+  background:transparent;flex-shrink:0;
+  transition:border-color .25s;
+}
+.nav-burger:hover{border-color:rgba(200,169,110,.4)}
+.burger-icon{
+  display:flex;flex-direction:column;gap:4px;
+  pointer-events:none;
 }
 .burger-line{
-  width:22px;height:1.5px;background:var(--text-2);
-  transition:transform .3s var(--ease),opacity .3s;
-  display:block
+  width:14px;height:1px;background:var(--text-2);
+  transition:transform .35s var(--ease),opacity .25s,width .3s;
+  display:block;transform-origin:center;
 }
-.nav-burger.open .burger-line:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger-line:nth-child(2){width:10px;align-self:flex-end}
+.nav-burger.open{border-color:rgba(200,169,110,.35)}
+.nav-burger.open .burger-line:nth-child(1){transform:translateY(5px) rotate(45deg);width:14px}
 .nav-burger.open .burger-line:nth-child(2){opacity:0;transform:scaleX(0)}
-.nav-burger.open .burger-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.nav-burger.open .burger-line:nth-child(3){transform:translateY(-5px) rotate(-45deg);width:14px}
+
+/* Overlay */
+.mm-overlay{
+  position:fixed;inset:0;z-index:98;
+  background:rgba(0,0,0,0);
+  pointer-events:none;
+  transition:background .45s var(--ease);
+}
+.mm-overlay.open{
+  background:rgba(0,0,6,.72);
+  pointer-events:all;
+  backdrop-filter:blur(4px);
+}
+
+/* Panel */
 .mobile-menu{
-  position:fixed;inset:0;z-index:99;
-  background:rgba(7,7,15,.97);
-  backdrop-filter:blur(24px) saturate(180%);
+  position:fixed;top:0;right:0;bottom:0;
+  width:min(88vw,380px);
+  z-index:99;
+  background:#09090F;
+  border-left:1px solid rgba(200,169,110,.12);
   display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:40px;
-  transform:translateY(-100%);opacity:0;
-  transition:transform .4s var(--ease),opacity .4s var(--ease);
-  pointer-events:none
+  transform:translateX(100%);
+  transition:transform .52s cubic-bezier(.76,0,.24,1);
+  overflow:hidden;
 }
-.mobile-menu.open{transform:none;opacity:1;pointer-events:all}
-.mobile-menu a{
+.mobile-menu::before{
+  content:'';
+  position:absolute;top:0;left:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,transparent 0%,var(--gold-dk) 40%,var(--gold-dk) 60%,transparent 100%);
+  opacity:0;transition:opacity .5s .2s;
+}
+.mobile-menu.open{transform:none}
+.mobile-menu.open::before{opacity:1}
+
+/* Head */
+.mm-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 28px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;
+}
+.mm-brand{
+  display:flex;align-items:center;gap:10px;
+}
+.mm-brand-mark{
+  width:28px;height:28px;flex-shrink:0;
+}
+.mm-brand-name{
+  font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-1);
+}
+.mm-close{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;background:transparent;
+  color:var(--text-3);font-size:15px;font-weight:300;
+  transition:border-color .2s,color .2s;line-height:1;
+}
+.mm-close:hover{border-color:rgba(200,169,110,.4);color:var(--gold)}
+
+/* Nav items */
+.mm-nav{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;
+  padding:8px 28px;gap:0;
+}
+.mm-link{
+  display:flex;align-items:center;gap:18px;
+  padding:18px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  text-decoration:none;
+  opacity:0;transform:translateX(28px);
+  transition:opacity .45s,transform .45s,background .2s;
+}
+.mm-link:last-child{border-bottom:none}
+.mobile-menu.open .mm-link{opacity:1;transform:none}
+.mobile-menu.open .mm-link:nth-child(1){transition-delay:.08s}
+.mobile-menu.open .mm-link:nth-child(2){transition-delay:.14s}
+.mobile-menu.open .mm-link:nth-child(3){transition-delay:.20s}
+.mobile-menu.open .mm-link:nth-child(4){transition-delay:.26s}
+.mm-link-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:36px;font-weight:300;letter-spacing:.02em;
-  color:var(--text-2);transition:color .2s
+  font-size:12px;font-weight:400;color:var(--gold-dk);
+  letter-spacing:.06em;flex-shrink:0;width:22px;
 }
-.mobile-menu a:hover{color:var(--text-1)}
-.mobile-menu-cta{
-  margin-top:16px;
-  font-size:14px;font-weight:500;
-  padding:14px 36px;border-radius:var(--r);
+.mm-link-name{
+  font-size:24px;font-weight:300;letter-spacing:-.01em;
+  color:var(--text-2);transition:color .2s;flex:1;
+  font-family:'Cormorant Garamond',serif;
+}
+.mm-link:hover .mm-link-name{color:var(--text-1)}
+.mm-link-arrow{
+  font-size:16px;color:var(--text-3);
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .2s,transform .2s,color .2s;
+}
+.mm-link:hover .mm-link-arrow{opacity:1;transform:none;color:var(--gold)}
+
+/* Footer */
+.mm-foot{
+  padding:24px 28px;
+  border-top:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s .32s,transform .4s .32s;
+}
+.mobile-menu.open .mm-foot{opacity:1;transform:none}
+.mm-cta{
+  display:block;width:100%;text-align:center;
+  font-size:13px;font-weight:500;letter-spacing:.05em;
+  padding:13px;border-radius:var(--r);
   background:linear-gradient(135deg,var(--gold) 0%,var(--gold-dk) 100%);
-  color:#07070F
+  color:#07070F;margin-bottom:20px;
+  transition:opacity .2s;
 }
+.mm-cta:hover{opacity:.9}
+.mm-contacts{
+  display:flex;flex-direction:column;gap:5px;
+  margin-bottom:20px;
+}
+.mm-contacts a{
+  font-size:12px;font-weight:400;color:var(--text-3);
+  letter-spacing:.02em;transition:color .2s;
+}
+.mm-contacts a:hover{color:var(--text-2)}
+.mm-foot-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;border-top:1px solid rgba(255,255,255,.04);
+}
+.mm-copy{
+  font-size:10px;color:var(--text-3);letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.mm-klm{opacity:.15}
 
 /* ─── HERO ─────────────────────────────────────────────────── */
 .hero{
@@ -231,51 +356,56 @@ body::before{
 }
 @keyframes scrollPulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
 
-/* ─── LOGO STRIP ───────────────────────────────────────────── */
-.logos{
-  padding:48px 0;
+/* ─── CERTS ────────────────────────────────────────────────── */
+.certs{
+  padding:52px 0;
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
   background:var(--bg-2);
-  overflow:hidden
 }
-.logos-inner{display:flex;align-items:center;gap:0}
-.logos-label{
-  flex-shrink:0;
-  font-size:11px;font-weight:400;letter-spacing:.12em;
+.certs-inner{
+  display:grid;grid-template-columns:200px 1fr;
+  align-items:center;gap:0;
+}
+.certs-label{
+  font-size:10px;font-weight:500;letter-spacing:.16em;
   text-transform:uppercase;color:var(--text-3);
-  padding-right:48px;border-right:1px solid var(--border);
-  white-space:nowrap;line-height:1.6
+  border-right:1px solid var(--border);
+  padding-right:40px;line-height:2;
 }
-.logos-list{
-  display:flex;align-items:center;
-  gap:48px;padding-left:48px;overflow-x:auto;
-  scrollbar-width:none;-ms-overflow-style:none
+.certs-items{
+  display:flex;flex-wrap:wrap;
+  padding-left:40px;gap:0;
 }
-.logos-list::-webkit-scrollbar{display:none}
-.logo-item{
+.cert-item{
   display:flex;align-items:center;gap:10px;
-  opacity:.35;transition:opacity .3s;
-  white-space:nowrap;flex-shrink:0
+  padding:14px 28px;
+  border-right:1px solid rgba(255,255,255,.07);
+  opacity:.62;transition:opacity .3s,background .2s;
+  cursor:default;
 }
-.logo-item:hover{opacity:.7}
-.logo-icon{
-  width:20px;height:20px;border-radius:3px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:white;flex-shrink:0
+.cert-item:hover{opacity:1;background:rgba(255,255,255,.02)}
+.cert-dot{
+  width:8px;height:8px;border-radius:50%;
+  flex-shrink:0;box-shadow:0 0 6px currentColor;
 }
-.logo-icon.g  {background:#4285F4}
-.logo-icon.yt {background:#FF0000}
-.logo-icon.ga {background:#F9AB00}
-.logo-icon.gm {background:#34A853}
-.logo-icon.ag {background:#1A73E8}
-.logo-text{font-size:13px;font-weight:500;color:var(--text-2)}
+.cert-name{
+  font-size:13px;font-weight:400;
+  color:var(--text-1);white-space:nowrap;letter-spacing:.01em;
+}
+.cert-badge{
+  font-size:9px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(200,169,110,.3);
+  border-radius:2px;padding:2px 7px;
+  white-space:nowrap;background:rgba(200,169,110,.06);
+}
 
 /* ─── SERVICES ─────────────────────────────────────────────── */
-.services{padding:140px 0;position:relative}
+.services{padding:120px 0;position:relative}
 .services-header{
   display:grid;grid-template-columns:1fr 1fr;
-  align-items:end;gap:40px;margin-bottom:80px
+  align-items:end;gap:40px;margin-bottom:64px;
 }
 .section-h2{
   font-family:'Cormorant Garamond',serif;
@@ -285,64 +415,80 @@ body::before{
 .section-h2 em{font-style:italic;color:var(--gold)}
 .services-desc{
   font-size:16px;font-weight:300;line-height:1.75;
-  color:var(--text-2);max-width:440px
+  color:var(--text-2);max-width:440px;
 }
-.services-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:var(--border);
-  border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden
+
+/* Row list */
+.svc-list{border-top:1px solid var(--border)}
+
+.svc-row{
+  display:grid;
+  grid-template-columns:64px 1fr auto 44px;
+  align-items:center;gap:0 36px;
+  padding:26px 0;
+  border-bottom:1px solid var(--border);
+  text-decoration:none;position:relative;
+  transition:background .2s var(--ease);
 }
-.service-card{
-  background:var(--bg-card);
-  padding:44px 40px;position:relative;overflow:hidden;
-  transition:background .3s var(--ease);cursor:default;
-  display:flex;flex-direction:column
+.svc-row:hover{
+  background:rgba(255,255,255,.018);
+  box-shadow:inset 3px 0 0 var(--gold);
 }
-.service-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(200,169,110,.05) 0%,transparent 60%);
-  opacity:0;transition:opacity .4s var(--ease)
-}
-.service-card:hover{background:#111122}
-.service-card:hover::before{opacity:1}
-.service-card-top{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  margin-bottom:32px
-}
-.service-num{
+.svc-n{
   font-family:'Cormorant Garamond',serif;
-  font-size:13px;font-weight:400;color:var(--text-3);letter-spacing:.05em
+  font-size:14px;font-weight:300;color:var(--text-3);
+  letter-spacing:.05em;transition:color .2s;
+  padding-left:4px;
 }
-.service-icon-wrap{
-  width:44px;height:44px;border-radius:var(--r);
-  border:1px solid var(--border);
+.svc-row:hover .svc-n{color:var(--gold-dk)}
+
+.svc-main{display:flex;flex-direction:column;gap:5px;min-width:0}
+.svc-name{
+  font-size:19px;font-weight:500;letter-spacing:-.015em;
+  color:var(--text-2);line-height:1.2;
+  transition:color .2s;
+}
+.svc-row:hover .svc-name{color:var(--text-1)}
+.svc-desc{
+  font-size:13px;font-weight:300;color:var(--text-3);
+  line-height:1.5;transition:color .2s;
+}
+.svc-row:hover .svc-desc{color:var(--text-2)}
+
+.svc-tags{
+  display:flex;flex-wrap:wrap;gap:6px;
+  justify-content:flex-end;max-width:260px;
+}
+.svc-tag{
+  font-size:10px;font-weight:500;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-3);
+  padding:4px 10px;border:1px solid var(--border);
+  border-radius:2px;white-space:nowrap;
+  transition:border-color .2s,color .2s;
+}
+.svc-row:hover .svc-tag{
+  border-color:rgba(200,169,110,.22);
+  color:var(--text-2);
+}
+
+.svc-arr{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--border);flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.02);
-  transition:border-color .3s,background .3s
+  color:var(--text-3);font-size:16px;
+  transition:all .25s var(--ease);justify-self:center;
 }
-.service-card:hover .service-icon-wrap{
-  border-color:rgba(200,169,110,.3);background:rgba(200,169,110,.06)
+.svc-row:hover .svc-arr{
+  border-color:var(--gold);
+  background:var(--gold);
+  color:#07070F;
+  transform:rotate(-45deg);
 }
-.service-icon-wrap svg{width:20px;height:20px}
-.service-h3{font-size:18px;font-weight:500;letter-spacing:-.01em;color:var(--text-1);margin-bottom:14px;line-height:1.3}
-.service-text{font-size:14px;font-weight:300;line-height:1.7;color:var(--text-2);flex:1;margin-bottom:28px}
-.service-features{display:flex;flex-direction:column;gap:8px}
-.service-feat{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-3);letter-spacing:.02em}
-.service-feat::before{content:'';width:14px;height:1px;background:var(--gold-dk);flex-shrink:0}
-.service-link{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:12px;font-weight:500;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--gold);
-  margin-top:28px;opacity:0;transition:opacity .3s,gap .2s
-}
-.service-card:hover .service-link{opacity:1}
-.service-link:hover{gap:12px}
-.service-link-arrow{width:14px;height:1px;background:var(--gold);position:relative}
-.service-link-arrow::after{
-  content:'';position:absolute;right:0;top:-3px;
-  width:6px;height:6px;border-right:1px solid var(--gold);
-  border-top:1px solid var(--gold);transform:rotate(45deg)
-}
+
+/* Featured rows */
+.svc-row--feat{background:rgba(200,169,110,.02)}
+.svc-row--feat .svc-name{font-size:21px}
+.svc-row--feat .svc-n{color:var(--gold-dk)}
 
 /* ─── APPROACH ─────────────────────────────────────────────── */
 .approach{
@@ -489,94 +635,245 @@ body::before{
 .reveal-delay-3{transition-delay:.3s}
 .reveal-delay-4{transition-delay:.4s}
 
-/* ─── RESPONSIVE ───────────────────────────────────────────── */
+/* ─── WIDE CARD CLASSES (замість inline styles) ─────────────── */
+.service-wide{grid-column:span 3}
+.wide-inner{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:48px;align-items:start
+}
+.section-header-flex{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;gap:40px;flex-wrap:wrap
+}
+
+/* ─── RESPONSIVE — 1280px ───────────────────────────────────── */
+@media (max-width:1280px){
+  .hero-h1{font-size:clamp(48px,6vw,80px)}
+}
+
+/* ─── RESPONSIVE — 1100px ───────────────────────────────────── */
 @media (max-width:1100px){
   .container{padding:0 32px}
-  .services-grid{grid-template-columns:repeat(2,1fr)}
-  .services-grid .service-card[style*="span 3"]{grid-column:span 2}
   .metrics-grid{grid-template-columns:repeat(2,1fr)}
   .footer-top{grid-template-columns:1fr 1fr;gap:40px}
   .approach-inner{grid-template-columns:1fr;gap:56px}
   .approach-left{position:static}
   .testimonials-grid{grid-template-columns:1fr 1fr}
   .services-header{grid-template-columns:1fr}
+  .section-header-flex{gap:24px}
+  /* certs: allow wrap */
+  .certs-inner{grid-template-columns:160px 1fr}
+  /* svc: hide tags */
+  .svc-tags{display:none}
+  .svc-row{grid-template-columns:56px 1fr 40px;gap:0 28px}
 }
 
-@media (max-width:768px){
-  .container{padding:0 20px}
-  .nav{padding:0 20px}
-  .nav-links,.btn-primary{display:none}
-  .nav-burger{display:flex}
-
-  .hero{padding:120px 0 100px}
-  .hero-h1{font-size:clamp(40px,11vw,64px)}
-  .hero-sub{font-size:15px}
-  .hero-actions{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:56px}
-  .btn-hero,.btn-outline-hero{width:100%;justify-content:center}
-
-  .hero-stats{
-    grid-template-columns:1fr 1fr;
-    width:100%
-  }
-  .hero-stat{padding:18px 20px}
-  .hero-stat-val{font-size:32px}
+/* ─── RESPONSIVE — 860px ────────────────────────────────────── */
+@media (max-width:860px){
+  .hero-stats{grid-template-columns:1fr 1fr;width:100%}
+  .hero-stat{padding:20px 24px}
   .hero-stat+.hero-stat::before{display:none}
   .hero-stat:nth-child(1){border-right:1px solid var(--border)}
   .hero-stat:nth-child(3){grid-column:span 2;border-top:1px solid var(--border)}
-
-  .logos-label{display:none}
-  .logos-list{padding-left:0;gap:28px}
-
-  .services{padding:80px 0}
-  .services-grid{grid-template-columns:1fr}
-  .services-grid .service-card[style*="span 3"]{grid-column:span 1}
-  .service-card{padding:32px 24px}
-  .service-link{opacity:1}
-
-  .approach{padding:80px 0}
-  .approach-inner{gap:40px}
-  .approach-step{grid-template-columns:40px 1fr;gap:16px;padding:28px 0}
-
-  .metrics{padding:80px 0}
-  .metrics-grid{grid-template-columns:1fr 1fr}
-  .metric-cell{padding:32px 24px}
-  .metric-val{font-size:48px}
-
-  .testimonials{padding:80px 0}
+  .certs-inner{grid-template-columns:1fr;gap:16px}
+  .certs-label{border-right:none;padding-right:0;padding-bottom:12px;
+    border-bottom:1px solid var(--border)}
+  .certs-items{flex-wrap:wrap}
   .testimonials-grid{grid-template-columns:1fr}
-  .testi-card{padding:28px 24px}
-
-  .cta-section{padding:100px 0}
-  .cta-actions{flex-direction:column;align-items:stretch}
-  .cta-actions .btn-hero,.cta-actions .btn-outline-hero{width:100%;justify-content:center;font-size:14px;padding:14px 24px}
-
-  .footer-top{grid-template-columns:1fr}
-  .footer-bottom{flex-direction:column;align-items:flex-start}
-  .footer-legal{flex-wrap:wrap;gap:16px}
-
-  .section-h2{font-size:clamp(32px,8vw,48px)}
-  .hero-scroll-hint{display:none}
+  .testimonials-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .svc-tags{display:none}
+  .svc-row{grid-template-columns:48px 1fr 36px;gap:0 20px}
 }
 
+/* ─── RESPONSIVE — 768px TABLET/MOBILE ─────────────────────── */
+@media (max-width:768px){
+  .container{padding:0 20px}
+  .nav{padding:0 20px;height:64px}
+  .nav-links,.btn-primary{display:none}
+  .nav-burger{display:flex}
+
+  /* Hero */
+  .hero{padding:108px 0 80px}
+  .hero-h1{font-size:clamp(38px,10vw,60px);margin-bottom:20px}
+  .hero-sub{font-size:15px;margin-bottom:36px}
+  .hero-eyebrow{margin-bottom:24px}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:48px}
+  .btn-hero,.btn-outline-hero{width:100%;justify-content:center;padding:14px 20px}
+  .hero-stats{grid-template-columns:1fr 1fr;width:100%}
+  .hero-stat{padding:16px 18px}
+  .hero-stat-val{font-size:30px}
+  .hero-stat-label{font-size:11px}
+  .hero-stat:nth-child(1){border-right:1px solid var(--border)}
+  .hero-stat:nth-child(3){grid-column:span 2;border-top:1px solid var(--border)}
+  .hero-scroll-hint{display:none}
+
+  /* Section headers */
+  .section-h2{font-size:clamp(30px,8vw,44px)}
+  .section-header-flex{flex-direction:column;align-items:flex-start;gap:16px}
+  .section-header-flex>p{max-width:100%}
+
+  /* Services — row list */
+  .services{padding:64px 0}
+  .services-header{margin-bottom:40px}
+  .svc-row{grid-template-columns:40px 1fr 32px;gap:0 16px;padding:20px 0}
+  .svc-tags{display:none}
+  .svc-name{font-size:17px}
+  .svc-desc{font-size:12px}
+  .svc-row--feat .svc-name{font-size:18px}
+  .svc-arr{width:32px;height:32px;font-size:14px}
+
+  /* Certs */
+  .certs{padding:36px 0}
+  .certs-inner{grid-template-columns:1fr;gap:20px}
+  .certs-label{border-right:none;padding-right:0;padding-bottom:16px;
+    border-bottom:1px solid var(--border)}
+  .certs-items{padding-left:0;flex-wrap:wrap;gap:0}
+  .cert-item{padding:10px 16px}
+  .cert-item:first-child{padding-left:0}
+
+  /* Approach */
+  .approach{padding:72px 0}
+  .approach-inner{grid-template-columns:1fr;gap:36px}
+  .approach-left{position:static}
+  .approach-step{grid-template-columns:40px 1fr;gap:14px;padding:24px 0}
+  .step-title{font-size:16px}
+  .step-text{font-size:13px}
+
+  /* Metrics */
+  .metrics{padding:72px 0}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .metric-cell{padding:28px 20px}
+  .metric-val{font-size:44px}
+  .metric-desc{font-size:12px}
+
+  /* Testimonials */
+  .testimonials{padding:72px 0}
+  .testimonials-grid{grid-template-columns:1fr}
+  .testimonials-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .testi-card{padding:24px 20px}
+  .testi-text{font-size:14px}
+
+  /* CTA */
+  .cta-section{padding:80px 0}
+  .cta-actions{flex-direction:column;align-items:stretch;gap:12px}
+  .cta-actions .btn-hero,
+  .cta-actions .btn-outline-hero{width:100%;justify-content:center;font-size:14px;padding:14px 20px}
+  .cta-h2{font-size:clamp(32px,8vw,52px)}
+
+  /* Footer */
+  .footer{padding:56px 0 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:12px}
+  .footer-legal{flex-wrap:wrap;gap:12px 20px}
+  .footer-about{max-width:100%}
+}
+
+/* ─── RESPONSIVE — 480px SMALL MOBILE ──────────────────────── */
 @media (max-width:480px){
+  .container{padding:0 16px}
+  .hero-h1{font-size:clamp(34px,9vw,52px)}
   .hero-stats{grid-template-columns:1fr}
   .hero-stat:nth-child(1){border-right:none}
-  .hero-stat:nth-child(3){grid-column:span 1}
+  .hero-stat:nth-child(3){grid-column:span 1;border-top:1px solid var(--border)}
   .hero-stat+.hero-stat{border-top:1px solid var(--border)}
   .metrics-grid{grid-template-columns:1fr}
-  .testimonials-grid{grid-template-columns:1fr}
+  .metric-val{font-size:52px}
+  .services-header{margin-bottom:48px}
+  .testi-foot{flex-wrap:wrap;gap:10px}
+  .testi-stars{margin-left:0;margin-top:4px;width:100%}
+  .service-card-top{margin-bottom:20px}
+  .mm-link-name{font-size:22px}
+  .mm-cta{font-size:13px}
+  .footer-legal{gap:10px 16px}
+}
+
+/* ─── RESPONSIVE — 360px TINY ──────────────────────────────── */
+@media (max-width:360px){
+  .hero-h1{font-size:32px}
+  .btn-hero,.btn-outline-hero{font-size:13px;padding:13px 16px}
+  .nav-logo-sub{display:none}
+  .hero-eyebrow-text{font-size:10px}
 }
 </style>
 </head>
 <body>
 
 <!-- ─── MOBILE MENU ──────────────────────────────────────────── -->
+<!-- ─── MOBILE MENU OVERLAY ───────────────────────────────────── -->
+<div class="mm-overlay" id="mmOverlay" onclick="closeMobileMenu()"></div>
+
+<!-- ─── MOBILE MENU PANEL ────────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#services" onclick="closeMobileMenu()">Послуги</a>
-  <a href="#approach" onclick="closeMobileMenu()">Підхід</a>
-  <a href="#results" onclick="closeMobileMenu()">Результати</a>
-  <a href="#reviews" onclick="closeMobileMenu()">Відгуки</a>
-  <a href="#cta" class="mobile-menu-cta btn-hero" onclick="closeMobileMenu()">Отримати консультацію</a>
+
+  <!-- Head -->
+  <div class="mm-head">
+    <div class="mm-brand">
+      <svg class="mm-brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="34" height="34" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="3" y1="0" x2="3" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="0" y1="3" x2="3" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="37" y1="0" x2="37" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="37" y1="3" x2="40" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="3" y1="37" x2="3" y2="40" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="0" y1="37" x2="3" y2="37" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="37" y1="37" x2="37" y2="40" stroke="#C8A96E" stroke-width="0.9"/>
+        <line x1="37" y1="37" x2="40" y2="37" stroke="#C8A96E" stroke-width="0.9"/>
+        <rect x="7" y="7" width="26" height="26" stroke="#C8A96E" stroke-width="0.3" opacity="0.3"/>
+        <text x="20" y="26" text-anchor="middle" font-family="'Cormorant Garamond','Georgia',serif" font-size="13" font-weight="300" fill="#C8A96E" letter-spacing="1.5">KLM</text>
+      </svg>
+      <span class="mm-brand-name">Key Lab Media</span>
+    </div>
+    <button class="mm-close" onclick="closeMobileMenu()" aria-label="Закрити">✕</button>
+  </div>
+
+  <!-- Nav -->
+  <nav class="mm-nav">
+    <a href="#services" class="mm-link" onclick="closeMobileMenu()">
+      <span class="mm-link-num">01</span>
+      <span class="mm-link-name">Послуги</span>
+      <span class="mm-link-arrow">→</span>
+    </a>
+    <a href="#approach" class="mm-link" onclick="closeMobileMenu()">
+      <span class="mm-link-num">02</span>
+      <span class="mm-link-name">Підхід</span>
+      <span class="mm-link-arrow">→</span>
+    </a>
+    <a href="#results" class="mm-link" onclick="closeMobileMenu()">
+      <span class="mm-link-num">03</span>
+      <span class="mm-link-name">Результати</span>
+      <span class="mm-link-arrow">→</span>
+    </a>
+    <a href="#reviews" class="mm-link" onclick="closeMobileMenu()">
+      <span class="mm-link-num">04</span>
+      <span class="mm-link-name">Відгуки</span>
+      <span class="mm-link-arrow">→</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="mm-foot">
+    <a href="#cta" class="mm-cta" onclick="closeMobileMenu()">Отримати консультацію</a>
+    <div class="mm-contacts">
+      <a href="mailto:test@test.test">test@test.test</a>
+      <a href="tel:+111111">+111111</a>
+    </div>
+    <div class="mm-foot-bottom">
+      <span class="mm-copy">© 2026 KLM</span>
+      <svg class="mm-klm" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+        <rect x="6" y="6" width="68" height="68" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="6" y1="0" x2="6" y2="6" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="0" y1="6" x2="6" y2="6" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="74" y1="0" x2="74" y2="6" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="74" y1="6" x2="80" y2="6" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="6" y1="74" x2="6" y2="80" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="0" y1="74" x2="6" y2="74" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="74" y1="74" x2="74" y2="80" stroke="#C8A96E" stroke-width="1"/>
+        <line x1="74" y1="74" x2="80" y2="74" stroke="#C8A96E" stroke-width="1"/>
+        <text x="40" y="52" text-anchor="middle" font-family="'Cormorant Garamond','Georgia',serif" font-size="22" font-weight="300" fill="#C8A96E" letter-spacing="4">KLM</text>
+      </svg>
+    </div>
+  </div>
+
 </div>
 
 <!-- ─── NAV ─────────────────────────────────────────────────── -->
@@ -610,9 +907,11 @@ body::before{
   <div style="display:flex;align-items:center;gap:16px">
     <a href="#cta" class="btn-primary">Отримати консультацію</a>
     <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Меню">
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
+      <span class="burger-icon">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </span>
     </button>
   </div>
 </nav>
@@ -664,19 +963,47 @@ body::before{
   </div>
 </section>
 
-<!-- ─── LOGO STRIP ────────────────────────────────────────────── -->
-<div class="logos">
+<!-- ─── CERTS ──────────────────────────────────────────────────── -->
+<div class="certs">
   <div class="container">
-    <div class="logos-inner">
-      <div class="logos-label">Партнери<br>та сертифікати</div>
-      <div class="logos-list">
-        <div class="logo-item"><div class="logo-icon g">G</div><span class="logo-text">Google Ads</span></div>
-        <div class="logo-item"><div class="logo-icon yt">▶</div><span class="logo-text">YouTube Ads</span></div>
-        <div class="logo-item"><div class="logo-icon ga">◆</div><span class="logo-text">Google Analytics 4</span></div>
-        <div class="logo-item"><div class="logo-icon gm">M</div><span class="logo-text">Merchant Center</span></div>
-        <div class="logo-item"><div class="logo-icon ag">AG</div><span class="logo-text">Ad Grants</span></div>
-        <div class="logo-item"><div class="logo-icon g" style="background:#0F9D58">B</div><span class="logo-text">Google My Business</span></div>
-        <div class="logo-item"><div class="logo-icon g" style="background:#EA4335">▲</div><span class="logo-text">App Campaigns</span></div>
+    <div class="certs-inner">
+      <div class="certs-label">Партнери<br>та сертифікати</div>
+      <div class="certs-items">
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#4285F4"></div>
+          <span class="cert-name">Google Ads</span>
+          <span class="cert-badge">Partner</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#FF0000"></div>
+          <span class="cert-name">YouTube Ads</span>
+          <span class="cert-badge">Certified</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#F9AB00"></div>
+          <span class="cert-name">Google Analytics 4</span>
+          <span class="cert-badge">Certified</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#34A853"></div>
+          <span class="cert-name">Merchant Center</span>
+          <span class="cert-badge">Certified</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#1A73E8"></div>
+          <span class="cert-name">Ad Grants</span>
+          <span class="cert-badge">Certified</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#0F9D58"></div>
+          <span class="cert-name">Google My Business</span>
+          <span class="cert-badge">Verified</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:#EA4335"></div>
+          <span class="cert-name">App Campaigns</span>
+          <span class="cert-badge">Certified</span>
+        </div>
       </div>
     </div>
   </div>
@@ -699,280 +1026,163 @@ body::before{
       </p>
     </div>
 
-    <div class="services-grid">
+    <div class="svc-list">
 
-      <!-- 01 -->
-      <div class="service-card reveal">
-        <div class="service-card-top">
-          <span class="service-num">01</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <rect x="2" y="4" width="16" height="12" rx="1"/>
-              <path d="M6 10h8M10 7v6"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">01</span>
+        <div class="svc-main">
+          <span class="svc-name">Google Ads</span>
+          <span class="svc-desc">Пошукові, торгові та медійні кампанії. Налаштування з нуля або аудит наявного акаунту</span>
         </div>
-        <h3 class="service-h3">Google Ads</h3>
-        <p class="service-text">Пошукові, торгові, медійні та відеокампанії. Performance Max. Налаштування з нуля або аудит наявного акаунту.</p>
-        <div class="service-features">
-          <span class="service-feat">Пошукові кампанії</span>
-          <span class="service-feat">Performance Max</span>
-          <span class="service-feat">Shopping / Торгові</span>
-          <span class="service-feat">Ремаркетинг і аудиторії</span>
+        <div class="svc-tags">
+          <span class="svc-tag">Search</span>
+          <span class="svc-tag">Shopping</span>
+          <span class="svc-tag">Ремаркетинг</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 02 -->
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-card-top">
-          <span class="service-num">02</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <path d="M10 2L10 5M10 15L10 18M2 10L5 10M15 10L18 10"/>
-              <circle cx="10" cy="10" r="5"/>
-              <circle cx="10" cy="10" r="2" fill="var(--gold)" stroke="none"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">02</span>
+        <div class="svc-main">
+          <span class="svc-name">Performance Max</span>
+          <span class="svc-desc">Повне охоплення інвентарю Google. Аудиторні сигнали, asset-групи та стратегії ставок</span>
         </div>
-        <h3 class="service-h3">Google Ad Grants</h3>
-        <p class="service-text">Безкоштовна реклама для НКО на $10,000/міс. Допомагаємо отримати грант, налаштовуємо та ведемо кампанії в рамках програми.</p>
-        <div class="service-features">
-          <span class="service-feat">Отримання гранту</span>
-          <span class="service-feat">Відповідність політикам</span>
-          <span class="service-feat">Ведення кампаній</span>
-          <span class="service-feat">Звітність для НКО</span>
+        <div class="svc-tags">
+          <span class="svc-tag">PMax</span>
+          <span class="svc-tag">Asset Groups</span>
+          <span class="svc-tag">Smart Bidding</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 03 -->
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-card-top">
-          <span class="service-num">03</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"/>
-              <path d="M10 6v4l3 2"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">03</span>
+        <div class="svc-main">
+          <span class="svc-name">YouTube Ads</span>
+          <span class="svc-desc">In-stream, Discovery та Bumper. Відеостратегія від сценарію до аналітики конверсій</span>
         </div>
-        <h3 class="service-h3">Google My Business</h3>
-        <p class="service-text">Оптимізація профілю для локального пошуку. Робота з відгуками, контентом і позиціями в Google Maps.</p>
-        <div class="service-features">
-          <span class="service-feat">Створення і верифікація</span>
-          <span class="service-feat">Локальне SEO</span>
-          <span class="service-feat">Управління репутацією</span>
-          <span class="service-feat">Аналітика профілю</span>
+        <div class="svc-tags">
+          <span class="svc-tag">In-stream</span>
+          <span class="svc-tag">Discovery</span>
+          <span class="svc-tag">Brand Lift</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 04 -->
-      <div class="service-card reveal">
-        <div class="service-card-top">
-          <span class="service-num">04</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <rect x="3" y="3" width="6" height="6" rx="1"/>
-              <rect x="11" y="3" width="6" height="6" rx="1"/>
-              <rect x="3" y="11" width="6" height="6" rx="1"/>
-              <rect x="11" y="11" width="6" height="6" rx="1"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">04</span>
+        <div class="svc-main">
+          <span class="svc-name">Google Ad Grants</span>
+          <span class="svc-desc">Безкоштовна реклама для НКО на $10,000/міс. Допомагаємо отримати та утримати грант</span>
         </div>
-        <h3 class="service-h3">Google Merchant Center</h3>
-        <p class="service-text">Налаштування та оптимізація фіду товарів. Торгові кампанії з максимальною видимістю в пошуку та Google Shopping.</p>
-        <div class="service-features">
-          <span class="service-feat">Налаштування фіду</span>
-          <span class="service-feat">Усунення помилок</span>
-          <span class="service-feat">Оптимізація атрибутів</span>
-          <span class="service-feat">Smart Shopping</span>
+        <div class="svc-tags">
+          <span class="svc-tag">НКО</span>
+          <span class="svc-tag">Грант $10K</span>
+          <span class="svc-tag">Compliance</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 05 -->
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-card-top">
-          <span class="service-num">05</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <path d="M3 17L7 11L11 13L15 7L17 3"/>
-              <circle cx="17" cy="3" r="1.5" fill="var(--gold)" stroke="none"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">05</span>
+        <div class="svc-main">
+          <span class="svc-name">Google My Business</span>
+          <span class="svc-desc">Оптимізація профілю для локального пошуку та Google Maps. Управління репутацією</span>
         </div>
-        <h3 class="service-h3">SEO-оптимізація</h3>
-        <p class="service-text">Комплексне просування в органічній видачі. Семантика, технічний SEO, контент і посилальна стратегія.</p>
-        <div class="service-features">
-          <span class="service-feat">Технічний аудит</span>
-          <span class="service-feat">Семантичне ядро</span>
-          <span class="service-feat">On-page оптимізація</span>
-          <span class="service-feat">Посилальна стратегія</span>
+        <div class="svc-tags">
+          <span class="svc-tag">Локальне SEO</span>
+          <span class="svc-tag">Maps</span>
+          <span class="svc-tag">Відгуки</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 06 -->
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-card-top">
-          <span class="service-num">06</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <path d="M4 6h12M4 10h8M4 14h10"/>
-              <circle cx="16" cy="14" r="2"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">06</span>
+        <div class="svc-main">
+          <span class="svc-name">Google Merchant Center</span>
+          <span class="svc-desc">Налаштування та оптимізація фіду. Максимальна видимість у Google Shopping</span>
         </div>
-        <h3 class="service-h3">Технічний аудит</h3>
-        <p class="service-text">Глибокий аналіз рекламного акаунту, сайту та аналітики. Знаходимо втрати бюджету та точки зростання.</p>
-        <div class="service-features">
-          <span class="service-feat">Аудит Google Ads</span>
-          <span class="service-feat">GTM / GA4 аудит</span>
-          <span class="service-feat">Скоринг якості</span>
-          <span class="service-feat">Дорожня карта покращень</span>
+        <div class="svc-tags">
+          <span class="svc-tag">Feed</span>
+          <span class="svc-tag">Shopping</span>
+          <span class="svc-tag">Smart Shopping</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 07 -->
-      <div class="service-card reveal">
-        <div class="service-card-top">
-          <span class="service-num">07</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <path d="M3 5h14v10H3z" rx="1"/>
-              <path d="M8 8.5l5 1.5-5 1.5V8.5z" fill="var(--gold)" stroke="none"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">07</span>
+        <div class="svc-main">
+          <span class="svc-name">SEO-оптимізація</span>
+          <span class="svc-desc">Комплексне просування в органічній видачі: семантика, технічний SEO, посилання</span>
         </div>
-        <h3 class="service-h3">YouTube Ads</h3>
-        <p class="service-text">In-stream, Discovery та Bumper-реклама. Відеостратегія від сценарію до аналітики переглядів і конверсій.</p>
-        <div class="service-features">
-          <span class="service-feat">In-stream / Bumper</span>
-          <span class="service-feat">YouTube Discovery</span>
-          <span class="service-feat">Brand Awareness</span>
-          <span class="service-feat">View-through конверсії</span>
+        <div class="svc-tags">
+          <span class="svc-tag">On-page</span>
+          <span class="svc-tag">Семантика</span>
+          <span class="svc-tag">Link Building</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 08 -->
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-card-top">
-          <span class="service-num">08</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <polygon points="10,2 18,7 18,13 10,18 2,13 2,7"/>
-              <path d="M10 2v16M2 7l8 6 8-6"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">08</span>
+        <div class="svc-main">
+          <span class="svc-name">Технічний аудит</span>
+          <span class="svc-desc">Глибокий аналіз акаунту та аналітики. Знаходимо втрати бюджету та точки зростання</span>
         </div>
-        <h3 class="service-h3">Performance Max</h3>
-        <p class="service-text">Кампанії з повним охопленням інвентарю Google. Налаштування аудиторних сигналів, асетів і стратегій для максимального ROI.</p>
-        <div class="service-features">
-          <span class="service-feat">Аудиторні сигнали</span>
-          <span class="service-feat">Asset-групи</span>
-          <span class="service-feat">Conversion value rules</span>
-          <span class="service-feat">Інтеграція з фідом</span>
+        <div class="svc-tags">
+          <span class="svc-tag">Google Ads</span>
+          <span class="svc-tag">GA4 / GTM</span>
+          <span class="svc-tag">Road Map</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 09 -->
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-card-top">
-          <span class="service-num">09</span>
-          <div class="service-icon-wrap">
-            <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-              <circle cx="10" cy="10" r="8"/>
-              <path d="M10 6v4l-3 2"/>
-            </svg>
-          </div>
+      <a href="#" class="svc-row reveal">
+        <span class="svc-n">09</span>
+        <div class="svc-main">
+          <span class="svc-name">Google Analytics 4 / GTM</span>
+          <span class="svc-desc">Повне налаштування аналітики: цілі, події, воронки та наскрізні дані</span>
         </div>
-        <h3 class="service-h3">Google Analytics 4 / GTM</h3>
-        <p class="service-text">Повне налаштування аналітики: GA4, Google Tag Manager, цілі, події та наскрізні дані до рекламного кабінету.</p>
-        <div class="service-features">
-          <span class="service-feat">GA4 з нуля / міграція</span>
-          <span class="service-feat">GTM — теги і тригери</span>
-          <span class="service-feat">Enhanced Ecommerce</span>
-          <span class="service-feat">BigQuery експорт</span>
+        <div class="svc-tags">
+          <span class="svc-tag">GA4</span>
+          <span class="svc-tag">GTM</span>
+          <span class="svc-tag">BigQuery</span>
         </div>
-        <a href="#" class="service-link">Детальніше <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 10 — реклама додатків wide -->
-      <div class="service-card reveal" style="grid-column:span 3">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:start">
-          <div>
-            <div class="service-card-top" style="margin-bottom:24px">
-              <span class="service-num">10</span>
-              <div class="service-icon-wrap">
-                <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-                  <rect x="5" y="2" width="10" height="16" rx="2"/>
-                  <path d="M8 5h4M10 15v.5"/>
-                </svg>
-              </div>
-            </div>
-            <h3 class="service-h3">Реклама додатків</h3>
-            <p class="service-text">Google App Campaigns і ASO — повний цикл просування мобільного додатку: від інсталяцій до монетизації та утримання користувачів.</p>
-          </div>
-          <div>
-            <div class="service-features" style="margin-top:56px">
-              <span class="service-feat">Google UAC / App Campaigns</span>
-              <span class="service-feat">ASO — оптимізація в сторах</span>
-              <span class="service-feat">In-app події і конверсії</span>
-              <span class="service-feat">Стратегія інсталяцій</span>
-            </div>
-          </div>
-          <div>
-            <div class="service-features" style="margin-top:56px">
-              <span class="service-feat">Firebase аналітика</span>
-              <span class="service-feat">Ретаргетинг користувачів</span>
-              <span class="service-feat">LTV оптимізація</span>
-              <span class="service-feat">App Store / Google Play</span>
-            </div>
-          </div>
+      <a href="#" class="svc-row svc-row--feat reveal">
+        <span class="svc-n">10</span>
+        <div class="svc-main">
+          <span class="svc-name">Реклама додатків</span>
+          <span class="svc-desc">Google UAC, ASO та Firebase — повний цикл: від інсталяцій до утримання і монетизації</span>
         </div>
-        <a href="#" class="service-link" style="opacity:1;margin-top:36px">Дізнатись про рекламу додатків <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-tags">
+          <span class="svc-tag">UAC</span>
+          <span class="svc-tag">ASO</span>
+          <span class="svc-tag">LTV</span>
+          <span class="svc-tag">Firebase</span>
+        </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
-      <!-- 11 — автоматизація wide -->
-      <div class="service-card reveal" style="grid-column:span 3">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:start">
-          <div>
-            <div class="service-card-top" style="margin-bottom:24px">
-              <span class="service-num">11</span>
-              <div class="service-icon-wrap">
-                <svg viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.2">
-                  <path d="M2 6l5 4-5 4"/>
-                  <rect x="11" y="8" width="7" height="4" rx="1"/>
-                </svg>
-              </div>
-            </div>
-            <h3 class="service-h3">Автоматизація бізнесу</h3>
-            <p class="service-text">Впровадження наскрізної аналітики, CRM-інтеграцій, автоматичних правил і скриптів для Google Ads. Бізнес працює ефективніше без ручної праці.</p>
-          </div>
-          <div>
-            <div class="service-features" style="margin-top:56px">
-              <span class="service-feat">Google Ads Scripts</span>
-              <span class="service-feat">CRM інтеграції</span>
-              <span class="service-feat">Автоматичні правила</span>
-              <span class="service-feat">Наскрізна аналітика</span>
-            </div>
-          </div>
-          <div>
-            <div class="service-features" style="margin-top:56px">
-              <span class="service-feat">Looker Studio дашборди</span>
-              <span class="service-feat">Webhook / API зв'язки</span>
-              <span class="service-feat">Звіти в реальному часі</span>
-              <span class="service-feat">Make / Zapier сценарії</span>
-            </div>
-          </div>
+      <a href="#" class="svc-row svc-row--feat reveal">
+        <span class="svc-n">11</span>
+        <div class="svc-main">
+          <span class="svc-name">Автоматизація бізнесу</span>
+          <span class="svc-desc">CRM-інтеграції, скрипти, Looker Studio дашборди та Make/Zapier — бізнес без ручної праці</span>
         </div>
-        <a href="#" class="service-link" style="opacity:1;margin-top:36px">Дізнатись про автоматизацію <span class="service-link-arrow"></span></a>
-      </div>
+        <div class="svc-tags">
+          <span class="svc-tag">Scripts</span>
+          <span class="svc-tag">CRM</span>
+          <span class="svc-tag">Looker Studio</span>
+          <span class="svc-tag">Make</span>
+        </div>
+        <div class="svc-arr">↗</div>
+      </a>
 
     </div>
   </div>
@@ -1038,7 +1248,7 @@ body::before{
 <!-- ─── METRICS ────────────────────────────────────────────────── -->
 <section class="metrics" id="results">
   <div class="container">
-    <div style="display:flex;align-items:end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+    <div class="section-header-flex">
       <div>
         <div class="section-label reveal" style="margin-bottom:24px">Результати</div>
         <h2 class="section-h2 reveal reveal-delay-1">
@@ -1228,7 +1438,7 @@ body::before{
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Key Lab Media. Всі права захищені.</div>
+      <div class="footer-copy">© 2026 Key Lab Media. Всі права захищені.</div>
       <div class="footer-badge">
         <div class="badge-dot"></div>
         Приймаємо нові проєкти
@@ -1253,18 +1463,27 @@ body::before{
   // Mobile menu
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mmOverlay');
     const burger = document.getElementById('navBurger');
+    const nav = document.getElementById('nav');
+    const isOpen = menu.classList.contains('open');
     menu.classList.toggle('open');
+    overlay.classList.toggle('open');
     burger.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    nav.classList.toggle('mm-hidden', !isOpen);
+    document.body.style.overflow = isOpen ? '' : 'hidden';
   }
   function closeMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    const burger = document.getElementById('navBurger');
-    menu.classList.remove('open');
-    burger.classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('mmOverlay').classList.remove('open');
+    document.getElementById('navBurger').classList.remove('open');
+    document.getElementById('nav').classList.remove('mm-hidden');
     document.body.style.overflow = '';
   }
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
