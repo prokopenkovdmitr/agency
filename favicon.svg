@@ -1,0 +1,32 @@
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" fill="#07070F"/>
+
+  <!-- Outer frame -->
+  <rect x="3" y="3" width="26" height="26" stroke="#C8A96E" stroke-width="0.9"/>
+
+  <!-- Corner ticks — top left -->
+  <line x1="3" y1="0" x2="3" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+  <line x1="0" y1="3" x2="3" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+  <!-- Corner ticks — top right -->
+  <line x1="29" y1="0" x2="29" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+  <line x1="29" y1="3" x2="32" y2="3" stroke="#C8A96E" stroke-width="0.9"/>
+  <!-- Corner ticks — bottom left -->
+  <line x1="3" y1="29" x2="3" y2="32" stroke="#C8A96E" stroke-width="0.9"/>
+  <line x1="0" y1="29" x2="3" y2="29" stroke="#C8A96E" stroke-width="0.9"/>
+  <!-- Corner ticks — bottom right -->
+  <line x1="29" y1="29" x2="29" y2="32" stroke="#C8A96E" stroke-width="0.9"/>
+  <line x1="29" y1="29" x2="32" y2="29" stroke="#C8A96E" stroke-width="0.9"/>
+
+  <!-- Inner frame subtle -->
+  <rect x="6" y="6" width="20" height="20" stroke="#C8A96E" stroke-width="0.3" opacity="0.35"/>
+
+  <!-- KLM -->
+  <text x="16.5" y="22"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="11"
+        font-weight="400"
+        fill="#C8A96E"
+        letter-spacing="1.5">KLM</text>
+</svg>
