@@ -823,6 +823,29 @@ body::before{
   .footer-legal{gap:10px 16px}
 }
 
+/* ─── MOBILE PERFORMANCE ────────────────────────────────────── */
+/* Вимикаємо дорогі GPU-операції на мобільному */
+@media (max-width:768px){
+  /* Шум — майже невидимий (opacity 0.018), але дорогий feTurbulence */
+  body::before{display:none}
+
+  /* Глоу-елементи з blur(120px) — найдорожча операція на мобільному */
+  .glow-1,.glow-2,.glow-3{display:none}
+
+  /* backdrop-filter на nav */
+  .nav.scrolled{backdrop-filter:none;background:rgba(7,7,15,.95)}
+
+  /* backdrop-filter на overlay */
+  .mm-overlay.open{backdrop-filter:none}
+
+  /* content-visibility для секцій нижче фолду — браузер не рендерить
+     їх поки юзер не доскролить, значно скорочує час initial paint */
+  #services,#approach,#results,#reviews,#cta,footer{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 600px
+  }
+}
+
 /* ─── RESPONSIVE — 360px TINY ──────────────────────────────── */
 @media (max-width:360px){
   .hero-h1{font-size:32px}
