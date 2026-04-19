@@ -127,7 +127,7 @@ body::before{
   backdrop-filter:blur(20px) saturate(180%);
   border-color:var(--border)
 }
-.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
 .nav-logo-mark{
   width:36px;height:36px;flex-shrink:0;
 }
@@ -1029,7 +1029,7 @@ body::before{
 
 <!-- ─── NAV ─────────────────────────────────────────────────── -->
 <nav class="nav" id="nav">
-  <div class="nav-logo">
+  <a href="#home" class="nav-logo" aria-label="Key Lab Media — на головну">
     <!-- KLM mark -->
     <svg class="nav-logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="3" y="3" width="34" height="34" stroke="#C8A96E" stroke-width="0.9"/>
@@ -1048,7 +1048,7 @@ body::before{
       <div class="nav-logo-name">Key Lab Media</div>
       <div class="nav-logo-sub">Google Performance Agency</div>
     </div>
-  </div>
+  </a>
   <ul class="nav-links">
     <li><a href="#services">Послуги</a></li>
     <li><a href="#approach">Підхід</a></li>
