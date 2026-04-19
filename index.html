@@ -1536,8 +1536,13 @@ body::before{
     if (e.key === 'Escape') closeMobileMenu();
   });
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
+  // Hero — visible immediately (above fold, LCP element)
+  document.querySelectorAll('.hero .reveal, .certs .reveal').forEach(el => {
+    el.classList.add('visible');
+  });
+
+  // Scroll reveal (below fold only)
+  const reveals = document.querySelectorAll('.reveal:not(.visible)');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
