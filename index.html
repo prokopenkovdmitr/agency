@@ -7,14 +7,8 @@
 <!-- ─── RESOURCE HINTS — якомога раніше ─────────────────────────── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Inter — основний шрифт, завантажується першим -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<!-- Cormorant Garamond — display-шрифт, паралельно -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
-</noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap"></noscript>
 
 <!-- ─── FAVICON & THEME ──────────────────────────────────────────── -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -861,6 +855,119 @@ body::before{
 }
 </style>
 
+<!-- ─── SCHEMA.ORG STRUCTURED DATA ──────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://keylabmedia.com/#organization",
+      "name": "Key Lab Media",
+      "alternateName": "KLM",
+      "url": "https://keylabmedia.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://keylabmedia.com/#logo",
+        "url": "https://keylabmedia.com/klm-logo-dark.svg",
+        "width": 280,
+        "height": 248,
+        "caption": "Key Lab Media"
+      },
+      "image": { "@id": "https://keylabmedia.com/#logo" },
+      "description": "Сертифіковане агентство Google Performance. Спеціалізуємося на Google Ads, SEO, Performance Max, YouTube Ads та автоматизації реклами.",
+      "foundingDate": "2024",
+      "areaServed": { "@type": "Country", "name": "Ukraine" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+380509407485",
+        "email": "help@keylabmedia.com",
+        "contactType": "customer service",
+        "availableLanguage": ["Ukrainian", "Russian", "English"]
+      },
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://keylabmedia.com/#website",
+      "url": "https://keylabmedia.com/",
+      "name": "Key Lab Media",
+      "description": "Google Performance Agency — Google Ads, SEO, PMax, YouTube Ads",
+      "publisher": { "@id": "https://keylabmedia.com/#organization" },
+      "inLanguage": "uk-UA",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://keylabmedia.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://keylabmedia.com/#webpage",
+      "url": "https://keylabmedia.com/",
+      "name": "Key Lab Media — Google Performance Agency | Google Ads, SEO, PMax",
+      "description": "Сертифіковане агентство Google Performance. Google Ads, SEO, Performance Max, YouTube Ads, Ad Grants.",
+      "isPartOf": { "@id": "https://keylabmedia.com/#website" },
+      "about": { "@id": "https://keylabmedia.com/#organization" },
+      "inLanguage": "uk-UA",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://keylabmedia.com/" }
+        ]
+      }
+    },
+    {
+      "@type": "MarketingAgency",
+      "@id": "https://keylabmedia.com/#business",
+      "name": "Key Lab Media",
+      "url": "https://keylabmedia.com/",
+      "telephone": "+380509407485",
+      "email": "help@keylabmedia.com",
+      "image": "https://keylabmedia.com/og-image.jpg",
+      "logo": { "@id": "https://keylabmedia.com/#logo" },
+      "priceRange": "$$",
+      "currenciesAccepted": "UAH, USD",
+      "paymentAccepted": "Bank Transfer, Credit Card",
+      "areaServed": "Ukraine",
+      "knowsAbout": [
+        "Google Ads", "Performance Max", "YouTube Ads", "Google Ad Grants",
+        "Google My Business", "Merchant Center", "SEO", "Google Analytics 4",
+        "Google Tag Manager", "App Campaigns", "Automation"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Google Performance Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ads", "description": "Пошук, КМС, Shopping — повний цикл від стратегії до масштабування" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Performance Max", "description": "Повна автоматизація Google Ads: PMax кампанії, Asset Groups, Smart Bidding" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "YouTube Ads", "description": "In-stream, Discovery та Bumper відеореклама від сценарію до аналітики" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Реклама додатків", "description": "Google UAC, ASO та Firebase — від інсталяцій до утримання і монетизації" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Merchant Center", "description": "Налаштування, оптимізація фідів та Shopping-кампанії для e-commerce" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google My Business", "description": "Оптимізація профілю, відгуки та локальна видимість у Google Maps" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ad Grants", "description": "$10 000/місяць безкоштовної реклами для некомерційних організацій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO-оптимізація", "description": "Технічне SEO, контент-стратегія та нарощування посилальної маси" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Analytics 4 / GTM", "description": "Налаштування GA4, GTM, конверсій та crm-інтеграцій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Технічний аудит", "description": "Повний аудит рекламних акаунтів, сайту і аналітики з планом дій" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автоматизація", "description": "Google Ads Scripts, API-інтеграції та автоматичні звіти" } }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "12",
+        "reviewCount": "12"
+      }
+    }
+  ]
+}
+</script>
+
 </head>
 <body>
 
@@ -1594,118 +1701,5 @@ body::before{
     }, { threshold: 0.3 }).observe(metricsGrid);
   }
 </script>
-<!-- ─── SCHEMA.ORG STRUCTURED DATA ──────────────────────────────── -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://keylabmedia.com/#organization",
-      "name": "Key Lab Media",
-      "alternateName": "KLM",
-      "url": "https://keylabmedia.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "@id": "https://keylabmedia.com/#logo",
-        "url": "https://keylabmedia.com/klm-logo-dark.svg",
-        "width": 280,
-        "height": 248,
-        "caption": "Key Lab Media"
-      },
-      "image": { "@id": "https://keylabmedia.com/#logo" },
-      "description": "Сертифіковане агентство Google Performance. Спеціалізуємося на Google Ads, SEO, Performance Max, YouTube Ads та автоматизації реклами.",
-      "foundingDate": "2024",
-      "areaServed": { "@type": "Country", "name": "Ukraine" },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+380509407485",
-        "email": "help@keylabmedia.com",
-        "contactType": "customer service",
-        "availableLanguage": ["Ukrainian", "Russian", "English"]
-      },
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://keylabmedia.com/#website",
-      "url": "https://keylabmedia.com/",
-      "name": "Key Lab Media",
-      "description": "Google Performance Agency — Google Ads, SEO, PMax, YouTube Ads",
-      "publisher": { "@id": "https://keylabmedia.com/#organization" },
-      "inLanguage": "uk-UA",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://keylabmedia.com/?s={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://keylabmedia.com/#webpage",
-      "url": "https://keylabmedia.com/",
-      "name": "Key Lab Media — Google Performance Agency | Google Ads, SEO, PMax",
-      "description": "Сертифіковане агентство Google Performance. Google Ads, SEO, Performance Max, YouTube Ads, Ad Grants.",
-      "isPartOf": { "@id": "https://keylabmedia.com/#website" },
-      "about": { "@id": "https://keylabmedia.com/#organization" },
-      "inLanguage": "uk-UA",
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://keylabmedia.com/" }
-        ]
-      }
-    },
-    {
-      "@type": "MarketingAgency",
-      "@id": "https://keylabmedia.com/#business",
-      "name": "Key Lab Media",
-      "url": "https://keylabmedia.com/",
-      "telephone": "+380509407485",
-      "email": "help@keylabmedia.com",
-      "image": "https://keylabmedia.com/og-image.jpg",
-      "logo": { "@id": "https://keylabmedia.com/#logo" },
-      "priceRange": "$",
-      "currenciesAccepted": "UAH, USD",
-      "paymentAccepted": "Bank Transfer, Credit Card",
-      "areaServed": "Ukraine",
-      "knowsAbout": [
-        "Google Ads", "Performance Max", "YouTube Ads", "Google Ad Grants",
-        "Google My Business", "Merchant Center", "SEO", "Google Analytics 4",
-        "Google Tag Manager", "App Campaigns", "Automation"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Google Performance Services",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ads", "description": "Пошук, КМС, Shopping — повний цикл від стратегії до масштабування" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Performance Max", "description": "Повна автоматизація Google Ads: PMax кампанії, Asset Groups, Smart Bidding" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "YouTube Ads", "description": "In-stream, Discovery та Bumper відеореклама від сценарію до аналітики" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Реклама додатків", "description": "Google UAC, ASO та Firebase — від інсталяцій до утримання і монетизації" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Merchant Center", "description": "Налаштування, оптимізація фідів та Shopping-кампанії для e-commerce" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google My Business", "description": "Оптимізація профілю, відгуки та локальна видимість у Google Maps" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Ad Grants", "description": "$10 000/місяць безкоштовної реклами для некомерційних організацій" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO-оптимізація", "description": "Технічне SEO, контент-стратегія та нарощування посилальної маси" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Analytics 4 / GTM", "description": "Налаштування GA4, GTM, конверсій та crm-інтеграцій" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Технічний аудит", "description": "Повний аудит рекламних акаунтів, сайту і аналітики з планом дій" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автоматизація", "description": "Google Ads Scripts, API-інтеграції та автоматичні звіти" } }
-        ]
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "bestRating": "5",
-        "worstRating": "1",
-        "ratingCount": "12",
-        "reviewCount": "12"
-      }
-    }
-  ]
-}
-</script>
-
 </body>
 </html>
